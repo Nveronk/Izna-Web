@@ -1,0 +1,22 @@
+name: Fix Links
+on:
+  push:
+    branches:
+      - main
+jobs:
+  fix-links:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Run fix_links.sh
+        run: |
+          chmod +x fix_links.sh
+          ./fix_links.sh
+      - name: Commit changes (if any)
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add .
+          git commit -m "Automatically fixed links" || echo "No changes to commit"
+          git push
